@@ -1,130 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SetBook PDF Generator</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      background-color: #f2f2f2;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .input-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-top: 20px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetBook Downloads</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 15px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-
-  <h1>SetBook PDF Generator</h1>
-
-  <div class="input-group">
-    <label for="mbgc">MBGC Source</label>
-    <input type="text" id="mbgc" value="MBGC">
-  </div>
-
-  <div class="input-group">
-    <label for="sdg">SDG Number</label>
-    <input type="text" id="sdg" value="9.1">
-  </div>
-
-  <div class="input-group">
-    <label for="audience">Audience</label>
-    <input type="text" id="audience" value="C">
-  </div>
-
-  <div class="input-group">
-    <label for="type">Type (A, Ba, Bb, C)</label>
-    <select id="type">
-      <option value="A">A</option>
-      <option value="Ba">Ba</option>
-      <option value="Bb">Bb</option>
-      <option value="C">C</option>
-    </select>
-  </div>
-
-  <div class="input-group">
-    <label for="title">Title</label>
-    <input type="text" id="title" value="Virtuous Industry">
-  </div>
-
-  <button onclick="generatePDF()">Generate PDF</button>
-
-  <script>
-    async function generatePDF() {
-      const { jsPDF } = window.jspdf;
-      const mbgc = document.getElementById('mbgc').value;
-      const sdg = document.getElementById('sdg').value;
-      const audience = document.getElementById('audience').value;
-      const type = document.getElementById('type').value;
-      const title = document.getElementById('title').value;
-
-      const fileName = `${mbgc}_${sdg}_${audience}_${type}_${title}.pdf`;
-
-      const doc = new jsPDF();
-
-      doc.setFontSize(20);
-      doc.text(title, 20, 30);
-
-      doc.setFontSize(12);
-      doc.text(`MBGC Source: ${mbgc}`, 20, 50);
-      doc.text(`SDG Number: ${sdg}`, 20, 60);
-      doc.text(`Audience: ${audience}`, 20, 70);
-      doc.text(`Type: ${type}`, 20, 80);
-
-      doc.text("Content goes here. You can add more dynamic text as needed.", 20, 100);
-
-      doc.save(MBGC_9.1_C_A_Virtuous_Industry.pdf
-
-MBGC_9.1_C_Ba_Virtuous_Industry.pdf
-
-MBGC_9.1_C_Bb_Virtuous_Industry.pdf
-
-MBGC_9.1_C_C_Virtuous_Industry.pdf);
-      alert(`PDF generated: ${MBGC_9.1_C_A_Virtuous_Industry.pdf
-
-MBGC_9.1_C_Ba_Virtuous_Industry.pdf
-
-MBGC_9.1_C_Bb_Virtuous_Industry.pdf
-
-MBGC_9.1_C_C_Virtuous_Industry.pdf}`);
-    }
-  </script>
-
+    <h1>Download Approved SetBooks</h1>
+    <p>Click the links below to download the eBooks exactly as written:</p>
+    <ul>
+        <li><a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_A_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_A_Virtuous Industry.pdf</a></li>
+        <li><a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Ba_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_Ba_Virtuous Industry.pdf</a></li>
+        <li><a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Bb_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_Bb_Virtuous Industry.pdf</a></li>
+        <li><a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_C_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_C_Virtuous Industry.pdf</a></li>
+    </ul>
 </body>
 </html>
-<h2>Download Approved PDFs</h2>
-<ul>
-  <li><a href="https://github.com/Lyne787/setbook-tool/blob/main/MBGC_9.1_C_A_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_A_Virtuous Industry.pdf</a></li>
-  <li><a href="https://github.com/Lyne787/setbook-tool/blob/main/MBGC_9.1_C_Ba_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_Ba_Virtuous Industry.pdf</a></li>
-  <li><a href="https://github.com/Lyne787/setbook-tool/blob/main/MBGC_9.1_C_Bb_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_Bb_Virtuous Industry.pdf</a></li>
-  <li><a href="https://github.com/Lyne787/setbook-tool/blob/main/MBGC_9.1_C_C_Virtuous_Industry.pdf?raw=true" target="_blank">MBGC_9.1_C_C_Virtuous Industry.pdf</a></li>
+  
+  
+
+
+
+   
+
+
