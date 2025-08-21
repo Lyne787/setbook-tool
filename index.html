@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetBook PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f0f0f0; }
+        h1 { color: #333; }
+        label { display: block; margin: 10px 0 5px; }
+        input, select, button { padding: 8px; width: 300px; margin-bottom: 15px; }
+        button { width: 150px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>SetBook PDF Generator</h1>
+    
+    <label for="codeInput">Enter Code:</label>
+    <input type="text" id="codeInput" placeholder="MBGC_9.1_C_title">
+    
+    <label for="tSelect">Select T:</label>
+    <select id="tSelect">
+        <option value="A">A</option>
+        <option value="Ba">Ba</option>
+        <option value="Bb">Bb</option>
+        <option value="C">C</option>
+    </select>
+    
+    <label for="bookTitle">Enter Book Title:</label>
+    <input type="text" id="bookTitle" placeholder="Virtuous Industry">
+    
+    <button onclick="generatePDF()">Generate PDF</button>
+
+    <script>
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const code = document.getElementById('codeInput').value.trim();
+            const t = document.getElementById('tSelect').value;
+            const title = document.getElementById('bookTitle').value.trim() || "Untitled";
+            
+            if (!code) {
+                alert("Please enter a code.");
+                return;
+            }
+
+            // Create PDF
+            const doc = new jsPDF();
+            doc.setFontSize(20);
+            doc.text(title, 20, 30);
+            doc.setFontSize(12);
+            doc.text(`Code: ${code}_${t}_${title}`, 20, 50);
+            doc.text("This is a generated SetBook PDF.", 20, 70);
+            
+            // Generate file name
+            const filename = `${code}_${t}_${title}.pdf`.replace(/\s+/g, '_');
+            doc.save(filename);
+        }
+    </script>
+</body>
+</html>
