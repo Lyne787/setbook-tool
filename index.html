@@ -3,60 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SetBook PDF Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>SetBook Downloads</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 30px; background: #f0f0f0; }
-        h1 { color: #333; }
-        label { display: block; margin: 10px 0 5px; }
-        input, select, button { padding: 8px; width: 300px; margin-bottom: 15px; }
-        button { width: 150px; background: #007bff; color: white; border: none; cursor: pointer; }
-        button:hover { background: #0056b3; }
+        body { font-family: Arial, sans-serif; padding: 50px; background: #f9f9f9; text-align: center; }
+        h1 { color: #2c3e50; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 15px 0; }
+        a { text-decoration: none; color: #fff; background-color: #3498db; padding: 10px 20px; border-radius: 5px; }
+        a:hover { background-color: #2980b9; }
+        .code-title { font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
-    <h1>SetBook PDF Generator</h1>
-    
-    <label for="codeInput">Enter Code:</label>
-    <input type="text" id="codeInput" placeholder="MBGC_9.1_C_title">
-    
-    <label for="tSelect">Select T:</label>
-    <select id="tSelect">
-        <option value="A">A</option>
-        <option value="Ba">Ba</option>
-        <option value="Bb">Bb</option>
-        <option value="C">C</option>
-    </select>
-    
-    <label for="bookTitle">Enter Book Title:</label>
-    <input type="text" id="bookTitle" placeholder="Virtuous Industry">
-    
-    <button onclick="generatePDF()">Generate PDF</button>
-
-    <script>
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const code = document.getElementById('codeInput').value.trim();
-            const t = document.getElementById('tSelect').value;
-            const title = document.getElementById('bookTitle').value.trim() || "Untitled";
-            
-            if (!code) {
-                alert("Please enter a code.");
-                return;
-            }
-
-            // Create PDF
-            const doc = new jsPDF();
-            doc.setFontSize(20);
-            doc.text(title, 20, 30);
-            doc.setFontSize(12);
-            doc.text(`Code: ${code}_${t}_${title}`, 20, 50);
-            doc.text("This is a generated SetBook PDF.", 20, 70);
-            
-            // Generate file name
-            const filename = `${code}_${t}_${title}.pdf`.replace(/\s+/g, '_');
-            doc.save(filename);
-        }
-    </script>
+    <h1>Download SetBooks</h1>
+    <ul>
+        <li>
+            <div class="code-title">MBGC_9.1_C_A</div>
+            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_A_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
+        </li>
+        <li>
+            <div class="code-title">MBGC_9.1_C_Ba</div>
+            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Ba_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
+        </li>
+        <li>
+            <div class="code-title">MBGC_9.1_C_Bb</div>
+            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Bb_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
+        </li>
+        <li>
+            <div class="code-title">MBGC_9.1_C_C</div>
+            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_C_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
+        </li>
+    </ul>
 </body>
 </html>
