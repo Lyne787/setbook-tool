@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SetBook Downloads</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 50px; background: #f9f9f9; text-align: center; }
-        h1 { color: #2c3e50; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 15px 0; }
-        a { text-decoration: none; color: #fff; background-color: #3498db; padding: 10px 20px; border-radius: 5px; }
-        a:hover { background-color: #2980b9; }
-        .code-title { font-weight: bold; margin-bottom: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setbook PDF Tool</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1>Download SetBooks</h1>
-    <ul>
-        <li>
-            <div class="code-title">MBGC_9.1_C_A</div>
-            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_A_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
-        </li>
-        <li>
-            <div class="code-title">MBGC_9.1_C_Ba</div>
-            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Ba_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
-        </li>
-        <li>
-            <div class="code-title">MBGC_9.1_C_Bb</div>
-            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_Bb_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
-        </li>
-        <li>
-            <div class="code-title">MBGC_9.1_C_C</div>
-            <a href="https://github.com/lyne787/setbook-tool/blob/main/MBGC_9.1_C_C_Virtuous_Industry.pdf?raw=true" target="_blank">Virtuous Industry.pdf</a>
-        </li>
-    </ul>
+  <h2>Setbook PDF Generator</h2>
+
+  <!-- Input field -->
+  <label for="filename">Enter Code & Title:</label>
+  <input type="text" id="filename" placeholder="MBGC_9.1_C_Bb_Virtuous_Industry">
+  <br><br>
+
+  <!-- Button -->
+  <button onclick="generatePDF()">Generate PDF</button>
+
+  <script>
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Get input from the field
+      let fileName = document.getElementById("filename").value || "Generated_File";
+
+      // Add some text inside PDF
+      doc.text(`Generated PDF: ${fileName}`, 10, 10);
+
+      // Save PDF with entered filename
+      doc.save(fileName + ".pdf");
+    }
+  </script>
 </body>
 </html>
