@@ -1,36 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Setbook PDF Tool</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SetBook Tool — Prepare · Edit · Correct</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root { --bg:#f7f7fb; --ink:#222; --muted:#555; --pri:#2563eb; --card:#fff; --ring:#c7d2fe; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink)}
+    header{padding:28px;text-align:center;background:#fff;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+    h1{margin:0 0 6px;font-size:24px} .sub{color:var(--muted);font-size:14px}
+    main{max-width:980px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:1fr 420px;gap:18px}
+    @media (max-width:980px){ main{grid-template-columns:1fr} }
+    .card{background:var(--card);border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.06);padding:18px;border:1px solid #eee}
+    label{display:block;font-weight:600;margin:14px 0 6px}
+    input, select, textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:14px}
+    textarea{min-height:180px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    button,a.btn{appearance:none;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .pri{background:var(--pri);color:#fff} .sec{background:#e5e7eb}
+    .success{background:#16a34a;color:#fff} .warn{background:#f59e0b;color:#111}
+    .muted{color:var(--muted);font-size:12px;margin-top:8px}
+    .preview{border:1px dashed #ccc;border-radius:12px;padding:14px;background:#fafafa;min-height:140px;white-space:pre-wrap}
+    .filename{padding:10px 12px;border-radius:10px;background:#f1f5ff;border:1px solid var(--ring);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .toplink{display:inline-block;margin-top:8px;text-decoration:none}
+  </style>
 </head>
 <body>
-  <h2>Setbook PDF Generator</h2>
+  <header>
+    <h1>SetBook Tool</h1>
+    <div class="sub">Prepare · Edit · Correct/Modify → Generate PDF</div>
+    <a class="toplink" href="./library.html">Go to Downloads (authored PDFs)</a>
+  </header>
 
-  <!-- Input field -->
-  <label for="filename">Enter Code & Title:</label>
-  <input type="text" id="filename" placeholder="MBGC_9.1_C_Bb_Virtuous_Industry">
-  <br><br>
+  <main>
+    <!-- LEFT: Editor -->
+    <section class="card">
+      <h2 style="margin-top:0">1) Prepare / Edit</h2>
 
-  <!-- Button -->
-  <button onclick="generatePDF()">Generate PDF</button>
+      <div class="row">
+        <div>
+          <label>Prefix (fixed)</label>
+          <input id="prefix" value="MBGC" />
+        </div>
+        <div>
+          <label>SDG Number</label>
+          <input id="sdg" placeholder="e.g., 9.1" value="9.1"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Audience / Series</label>
+          <select id="series">
+            <option value="C" selected>C (Children/Young)</option>
+            <option value="T">T</option>
+            <option value="L">L</option>
+            <option value="N">N</option>
+            <option value="P">P</option>
+          </select>
+        </div>
+        <div>
+          <label>Version (T)</label>
+          <select id="tcode">
+            <option value="A">A</option>
+            <option value="Ba">Ba</option>
+            <option value="Bb">Bb</option>
+            <option value="C">C</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Title</label>
+      <input id="title" placeholder="Virtuous Industry" value="Virtuous Industry"/>
+
+      <label>Subtitle (auto or custom)</label>
+      <input id="subtitle" placeholder="Innovating responsibly for a better world"/>
+
+      <label>Body (editable content)</label>
+      <textarea id="body" placeholder="Write or paste the SetBook content here... For testing, include a few paragraphs."></textarea>
+
+      <div class="actions">
+        <button class="sec" id="autosub">Suggest Subtitle</button>
+        <button class="sec" id="previewBtn">Preview</button>
+      </div>
+
+      <h2 style="margin:18px 0 8px">2) Filename (live)</h2>
+      <div id="fname" class="filename">MBGC_9.1_C_A_Virtuous_Industry.pdf</div>
+      <div class="muted">Follows: <code>MBGC_[number]_[series]_[T]_[Title].pdf</code></div>
+
+      <div class="actions">
+        <button class="pri" id="downloadBtn">Download PDF</button>
+        <label class="sec" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:10px 14px">
+          Load Draft <input id="loadDraft" type="file" accept=".json" style="display:none">
+        </label>
+        <button class="success" id="saveDraftBtn">Save Draft (.json)</button>
+        <a class="btn warn" href="./library.html" style="text-decoration:none">Open Downloads Page</a>
+      </div>
+    </section>
+
+    <!-- RIGHT: Live Preview -->
+    <aside class="card">
+      <h2 style="margin-top:0">Preview</h2>
+      <div id="preview" class="preview">Use “Preview” to render a reading preview here.</div>
+      <div class="muted">Note: PDF layout will match this structure (Title, Subtitle, Body).</div>
+    </aside>
+  </main>
 
   <script>
-    async function generatePDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+    const els = {
+      prefix: document.getElementById('prefix'),
+      sdg: document.getElementById('sdg'),
+      series: document.getElementById('series'),
+      tcode: document.getElementById('tcode'),
+      title: document.getElementById('title'),
+      subtitle: document.getElementById('subtitle'),
+      body: document.getElementById('body'),
+      fname: document.getElementById('fname'),
+      preview: document.getElementById('preview'),
+      autosub: document.getElementById('autosub'),
+      previewBtn: document.getElementById('previewBtn'),
+      downloadBtn: document.getElementById('downloadBtn'),
+      saveDraftBtn: document.getElementById('saveDraftBtn'),
+      loadDraft: document.getElementById('loadDraft')
+    };
 
-      // Get input from the field
-      let fileName = document.getElementById("filename").value || "Generated_File";
+    function toFileSafe(s){ return (s || '').trim().replace(/\s+/g,'_').replace(/[^\w\.-]/g,''); }
 
-      // Add some text inside PDF
-      doc.text(`Generated PDF: ${fileName}`, 10, 10);
-
-      // Save PDF with entered filename
-      doc.save(fileName + ".pdf");
+    function buildFilename(){
+      const prefix=els.prefix.value||'MBGC';
+      const sdg=(els.sdg.value||'').trim();
+      const series=(els.series.value||'C').trim();
+      const t=(els.tcode.value||'A').trim();
+      const title=(els.title.value||'Untitled').trim();
+      return `${toFileSafe(prefix)}_${sdg}_${series}_${t}_${toFileSafe(title)}.pdf`;
     }
+
+    function refreshFilename(){ els.fname.textContent = buildFilename(); }
+    ['input','change'].forEach(ev=>{
+      [els.prefix,els.sdg,els.series,els.tcode,els.title].forEach(el=>el.addEventListener(ev,refreshFilename));
+    }); refreshFilename();
+
+    els.autosub.addEventListener('click', ()=>{
+      if(!els.subtitle.value){
+        const t=els.title.value||'Virtuous Industry';
+        els.subtitle.value = `A ${els.series.value} series guide to ${t.toLowerCase()}`;
+      }
+    });
+
+    els.previewBtn.addEventListener('click', ()=>{
+      const title=els.title.value||'Untitled';
+      const subtitle=els.subtitle.value||'';
+      const body=els.body.value||'(Body is empty — add content above.)';
+      els.preview.textContent = `${title}\n\n${subtitle}\n\n${body}`;
+    });
+
+    els.downloadBtn.addEventListener('click', ()=>{
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit:'pt', format:'a4' });
+
+      const title=els.title.value||'Untitled';
+      const subtitle=els.subtitle.value||'';
+      const body=els.body.value||'';
+
+      // Simple layout
+      doc.setFont('Times','Bold'); doc.setFontSize(22);
+      doc.text(title, 60, 80);
+      doc.setFont('Times','Italic'); doc.setFontSize(14);
+      if(subtitle) doc.text(subtitle, 60, 105);
+
+      doc.setFont('Times','Normal'); doc.setFontSize(12);
+      const wrapped = doc.splitTextToSize(body || ' ', 475);
+      doc.text(wrapped, 60, 150);
+
+      // Footer: code string
+      const codeLine = buildFilename().replace('.pdf','').replace(/_/g,' ');
+      doc.setFontSize(10); doc.text(codeLine, 60, 780);
+
+      doc.save(buildFilename());
+    });
+
+    els.saveDraftBtn.addEventListener('click', ()=>{
+      const payload = {
+        prefix: els.prefix.value,
+        sdg: els.sdg.value,
+        series: els.series.value,
+        tcode: els.tcode.value,
+        title: els.title.value,
+        subtitle: els.subtitle.value,
+        body: els.body.value
+      };
+      const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (toFileSafe(els.title.value)||'draft') + '.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    els.loadDraft.addEventListener('change', (e)=>{
+      const f=e.target.files[0]; if(!f) return;
+      const reader=new FileReader();
+      reader.onload=()=>{
+        try{
+          const data=JSON.parse(reader.result);
+          els.prefix.value=data.prefix||'MBGC';
+          els.sdg.value=data.sdg||'9.1';
+          els.series.value=data.series||'C';
+          els.tcode.value=data.tcode||'A';
+          els.title.value=data.title||'';
+          els.subtitle.value=data.subtitle||'';
+          els.body.value=data.body||'';
+          refreshFilename();
+          els.previewBtn.click();
+        }catch(err){ alert('Invalid draft file.'); }
+      };
+      reader.readAsText(f);
+      e.target.value='';
+    });
   </script>
 </body>
 </html>
