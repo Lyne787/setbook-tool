@@ -5,108 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patent & SDG eBook Generator</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f8f9fa;
-    }
-    header {
-      text-align: center;
-      padding: 15px;
-      background: #003366;
-      color: white;
-      font-size: 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #003366;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    button:hover {
-      background: #0055aa;
-    }
-    .help {
-      margin-top: 20px;
-      padding: 15px;
-      background: #eef5ff;
-      border: 1px solid #aaccee;
-      border-radius: 5px;
-      display: none;
-    }
-    .pdf-list {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f0f0f0;
-      border-radius: 5px;
-    }
+    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 40px; }
+    h1 { text-align: center; color: #003366; }
+    form { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #003366; color: white; cursor: pointer; font-size: 16px; margin-top: 20px; }
+    button:hover { background: #0055aa; }
+    .help { margin-top: 20px; padding: 15px; background: #eef5ff; border: 1px solid #aaccee; border-radius: 5px; display: none; }
   </style>
 </head>
 <body>
 
-<header>
-  Patent & SDG eBook Generator
-</header>
+<h1>Patent & SDG eBook Generator</h1>
 
-<div class="container">
-  <h2>Generate Your eBook</h2>
-  <form id="ebookForm">
-    <label for="title">eBook Title</label>
-    <input type="text" id="title" name="title" required>
+<form id="ebookForm">
+  <label for="title">eBook Title</label>
+  <input type="text" id="title" name="title" placeholder="e.g., Virtuous Industry" required>
 
-    <label for="content">Content</label>
-    <textarea id="content" name="content" rows="8" required></textarea>
+  <label for="content">Content</label>
+  <textarea id="content" name="content" rows="8" placeholder="Enter your content here" required></textarea>
 
-    <button type="submit">Generate PDF</button>
-  </form>
+  <button type="submit">Generate PDF</button>
+</form>
 
-  <div class="pdf-list" id="pdfList">
-    <h3>Generated eBooks</h3>
-    <ul id="pdfLinks"></ul>
-  </div>
-
-  <button onclick="toggleHelp()">HELP</button>
-  <div class="help" id="helpBox">
-    <h3>How to Use</h3>
-    <p>1. Enter the eBook title and content in the form above.</p>
-    <p>2. Click "Generate PDF" to create your eBook.</p>
-    <p>3. Your generated eBooks will appear in the list with download links.</p>
-    <p>4. Click the HELP button anytime to show or hide this guide.</p>
-  </div>
+<button onclick="toggleHelp()">HELP</button>
+<div class="help" id="helpBox">
+  <h3>How to Use</h3>
+  <p>1. Enter your eBook title and content above.</p>
+  <p>2. Click "Generate PDF" to create your eBook.</p>
+  <p>3. You can download your generated eBook immediately.</p>
+  <p>4. Use this HELP section anytime if instructions are unclear.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   const { jsPDF } = window.jspdf;
 
-  document.getElementById("ebookForm").addEventListener("submit", function(event) {
+  document.getElementById("ebookForm").addEventListener("submit", function(event){
     event.preventDefault();
     const title = document.getElementById("title").value;
     const content = document.getElementById("content").value;
-
-    // Generate PDF
     const doc = new jsPDF();
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(18);
@@ -114,20 +53,12 @@
     doc.setFont("Helvetica", "normal");
     doc.setFontSize(12);
     doc.text(content, 20, 40);
-
     const fileName = title.replace(/\s+/g, "_") + ".pdf";
     doc.save(fileName);
-
-    // Show in list
-    const link = document.createElement("li");
-    link.innerHTML = `<a href="${URL.createObjectURL(doc.output('blob'))}" download="${fileName}">${fileName}</a>`;
-    document.getElementById("pdfLinks").appendChild(link);
-
-    // Clear form
-    document.getElementById("ebookForm").reset();
+    this.reset();
   });
 
-  function toggleHelp() {
+  function toggleHelp(){
     const helpBox = document.getElementById("helpBox");
     helpBox.style.display = helpBox.style.display === "none" ? "block" : "none";
   }
@@ -135,4 +66,4 @@
 
 </body>
 </html>
-
+ 
