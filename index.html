@@ -1,86 +1,138 @@
 <!DOCTYPE html>
-const url = URL.createObjectURL(blob);
-const filename = buildFilename({mbgc, sdg, aud, type, title});
-return { url, filename };
-}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patent & SDG eBook Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    header {
+      text-align: center;
+      padding: 15px;
+      background: #003366;
+      color: white;
+      font-size: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #003366;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #0055aa;
+    }
+    .help {
+      margin-top: 20px;
+      padding: 15px;
+      background: #eef5ff;
+      border: 1px solid #aaccee;
+      border-radius: 5px;
+      display: none;
+    }
+    .pdf-list {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
 
+<header>
+  Patent & SDG eBook Generator
+</header>
 
-function addFileRow({url, filename}){
-emptyState.style.display='none';
-const row = document.createElement('div');
-row.className='file';
-row.innerHTML = `
-<div>
-<div><strong>${filename}</strong></div>
-<div class="muted mono">Ready · ${new Date().toLocaleString()}</div>
+<div class="container">
+  <h2>Generate Your eBook</h2>
+  <form id="ebookForm">
+    <label for="title">eBook Title</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="content">Content</label>
+    <textarea id="content" name="content" rows="8" required></textarea>
+
+    <button type="submit">Generate PDF</button>
+  </form>
+
+  <div class="pdf-list" id="pdfList">
+    <h3>Generated eBooks</h3>
+    <ul id="pdfLinks"></ul>
+  </div>
+
+  <button onclick="toggleHelp()">HELP</button>
+  <div class="help" id="helpBox">
+    <h3>How to Use</h3>
+    <p>1. Enter the eBook title and content in the form above.</p>
+    <p>2. Click "Generate PDF" to create your eBook.</p>
+    <p>3. Your generated eBooks will appear in the list with download links.</p>
+    <p>4. Click the HELP button anytime to show or hide this guide.</p>
+  </div>
 </div>
-<div class="btns">
-<a download="${filename}" href="${url}"><button class="primary">Download</button></a>
-<button class="ghost" data-copy>Copy name</button>
-</div>
-`;
-const copyBtn = row.querySelector('[data-copy]');
-copyBtn.addEventListener('click', async ()=>{
-await navigator.clipboard.writeText(filename);
-copyBtn.textContent='Copied!';
-setTimeout(()=> copyBtn.textContent='Copy name', 1200);
-});
-filesDiv.prepend(row);
-}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const { jsPDF } = window.jspdf;
 
-async function runGenerate(){
-const mbgc = sanitizeName(document.getElementById('mbgc').value || 'MBGC');
-const sdg = sanitizeName(document.getElementById('sdg').value || '9.1');
-const aud = sanitizeName(document.getElementById('aud').value || 'C');
-const title= sanitizeName(document.getElementById('title').value || 'Virtuous Industry');
-const subtitle = document.getElementById('subtitle').value.trim();
-const notes = document.getElementById('notes').value.trim();
-const types = getSelectedTypes();
+  document.getElementById("ebookForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
 
+    // Generate PDF
+    const doc = new jsPDF();
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text(title, 20, 20);
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(content, 20, 40);
 
-if(!types.length){ alert('Select at least one Type (A, Ba, Bb, C).'); return; }
+    const fileName = title.replace(/\s+/g, "_") + ".pdf";
+    doc.save(fileName);
 
+    // Show in list
+    const link = document.createElement("li");
+    link.innerHTML = `<a href="${URL.createObjectURL(doc.output('blob'))}" download="${fileName}">${fileName}</a>`;
+    document.getElementById("pdfLinks").appendChild(link);
 
-for(const type of types){
-const {url, filename} = await generatePDF({mbgc, sdg, aud, type, title, subtitle, notes});
-addFileRow({url, filename});
-}
-}
+    // Clear form
+    document.getElementById("ebookForm").reset();
+  });
 
-
-function validate(){
-const mbgc = sanitizeName(document.getElementById('mbgc').value || 'MBGC');
-const sdg = sanitizeName(document.getElementById('sdg').value || '9.1');
-const aud = sanitizeName(document.getElementById('aud').value || 'C');
-const title= sanitizeName(document.getElementById('title').value || 'Virtuous Industry');
-const types = getSelectedTypes();
-if(!types.length){ alert('No Types selected.'); return; }
-const names = types.map(type=> buildFilename({mbgc,sdg,aud,type,title}));
-alert('Filenames will be:\n\n' + names.join('\n'));
-}
-
-
-function clearList(){ filesDiv.innerHTML=''; emptyState.style.display='block'; }
-
-
-document.getElementById('genBtn').addEventListener('click', runGenerate);
-document.getElementById('validateBtn').addEventListener('click', validate);
-document.getElementById('clearBtn').addEventListener('click', clearList);
-
-
-// Optional: allow a single token paste (JWT-like) → auto-fill fields
-// Example: MBGC_9.1_C_A_Virtuous Industry
-window.applyToken = function(token){
-const parsed = parseToken(token);
-if(!parsed){ alert('Invalid token format. Expected MBGC_9.1_C_A_Title'); return; }
-document.getElementById('mbgc').value = parsed.mbgc;
-document.getElementById('sdg').value = parsed.sdg;
-document.getElementById('aud').value = parsed.aud;
-document.getElementById('title').value = parsed.title;
-// Set single type selection
-$$('#types option').forEach(o=> o.selected = (o.value===parsed.type));
-}
+  function toggleHelp() {
+    const helpBox = document.getElementById("helpBox");
+    helpBox.style.display = helpBox.style.display === "none" ? "block" : "none";
+  }
 </script>
+
 </body>
 </html>
+
