@@ -1,33 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MBGC PDF Collection</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 40px; text-align: center; }
-    h1 { color: #003366; margin-bottom: 20px; }
-    ul { list-style: none; padding: 0; }
-    li { margin: 12px 0; }
-    a { text-decoration: none; color: #0066cc; font-size: 18px; font-weight: bold; }
-    a:hover { color: #ff6600; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetBook Generated</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f5f5f5; }
+        h1, h2 { text-align: center; }
+        .books { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 20px auto; }
+        .book { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex; justify-content: space-between; align-items: center; }
+        .book a { text-decoration: none; color: #007bff; font-weight: bold; }
+        .highlight { background-color: #d4edda; }
+        .help-button { position: fixed; top: 20px; right: 20px; background: #28a745; color: white; border: none;
+            padding: 12px 18px; font-size: 16px; border-radius: 8px; cursor: pointer; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            overflow: auto; background-color: rgba(0,0,0,0.6); }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888;
+            width: 80%; border-radius: 10px; max-width: 600px; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: black; }
+    </style>
 </head>
 <body>
-  <h1>MBGC PDF Collection</h1>
-  <p>Click below to view or download the PDFs:</p>
-  
-  <ul>
-    <li><a href="https://raw.githubusercontent.com/YourUsername/YourRepo/main/MBGC_9.1_C_A_Virtuous_Industry.pdf" target="_blank">MBGC_9.1_C_A_Virtuous_Industry.pdf</a></li>
-    <li><a href="https://raw.githubusercontent.com/YourUsername/YourRepo/main/MBGC_9.1_C_Ba_Virtuous_Industry.pdf" target="_blank">MBGC_9.1_C_Ba_Virtuous_Industry.pdf</a></li>
-    <li><a href="https://raw.githubusercontent.com/YourUsername/YourRepo/main/MBGC_9.1_C_Bb_Virtuous_Industry.pdf" target="_blank">MBGC_9.1_C_Bb_Virtuous_Industry.pdf</a></li>
-    <li><a href="https://raw.githubusercontent.com/YourUsername/YourRepo/main/MBGC_9.1_C_C_Virtuous_Industry.pdf" target="_blank">MBGC_9.1_C_C_Virtuous_Industry.pdf</a></li>
-  </ul>
+
+<h1>SetBook Generated Successfully!</h1>
+<h2>Download Your SetBooks Below</h2>
+
+<div class="books">
+    <div class="book highlight">
+        <span>MBGC_9.1_C_A_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_A_Virtuous_Industry.pdf" download>Download</a>
+    </div>
+    <div class="book">
+        <span>MBGC_9.1_C_Ba_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_Ba_Virtuous_Industry.pdf" download>Download</a>
+    </div>
+    <div class="book">
+        <span>MBGC_9.1_C_Bb_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_Bb_Virtuous_Industry.pdf" download>Download</a>
+    </div>
+    <div class="book">
+        <span>MBGC_9.1_C_C_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_C_Virtuous_Industry.pdf" download>Download</a>
+    </div>
+</div>
+
+<!-- HELP Button -->
+<button class="help-button" id="helpBtn">HELP</button>
+
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>How to Use SetBooks</h2>
+    <ul>
+        <li>Click any file to download the ebook.</li>
+        <li>File naming convention: <strong>Project_SDGAudience_Category_Title.pdf</strong></li>
+        <li>Highlighted file shows the most recently generated SetBook.</li>
+        <li>Keep files organized in the same folder.</li>
+        <li>The HELP button always shows these instructions.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+    const modal = document.getElementById("helpModal");
+    const btn = document.getElementById("helpBtn");
+    const span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() { modal.style.display = "block"; }
+    span.onclick = function() { modal.style.display = "none"; }
+    window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+</script>
+
 </body>
 </html>
-
-
-
 
 
 
