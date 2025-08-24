@@ -85,20 +85,20 @@
 
 <div class="books">
     <div class="book">
-        <span>MBGC_9.1_C_A_Virtuous Industry.pdf</span>
-        <a href="MBGC_9.1_C_A_Virtuous Industry.pdf" download>Download</a>
+        <span>MBGC_9.1_C_A_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_A_Virtuous_Industry.pdf" download>Download</a>
     </div>
     <div class="book">
-        <span>MBGC_9.1_C_Ba_Virtuous Industry.pdf</span>
-        <a href="MBGC_9.1_C_Ba_Virtuous Industry.pdf" download>Download</a>
+        <span>MBGC_9.1_C_Ba_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_Ba_Virtuous_Industry.pdf" download>Download</a>
     </div>
     <div class="book">
-        <span>MBGC_9.1_C_Bb_Virtuous Industry.pdf</span>
-        <a href="MBGC_9.1_C_Bb_Virtuous Industry.pdf" download>Download</a>
+        <span>MBGC_9.1_C_Bb_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_Bb_Virtuous_Industry.pdf" download>Download</a>
     </div>
     <div class="book">
-        <span>MBGC_9.1_C_C_Virtuous Industry.pdf</span>
-        <a href="MBGC_9.1_C_C_Virtuous Industry.pdf" download>Download</a>
+        <span>MBGC_9.1_C_C_Virtuous_Industry.pdf</span>
+        <a href="MBGC_9.1_C_C_Virtuous_Industry.pdf" download>Download</a>
     </div>
 </div>
 
@@ -112,37 +112,23 @@
     <h2>How to Use SetBooks</h2>
     <p>Welcome to the SetBook system! Here’s how you can use it:</p>
     <ul>
-        <li>Click on any of the files above to download the ebook.</li>
-        <li>Each file follows the naming convention: <strong>Project_SDGAudience_Category_Title.pdf</strong></li>
-        <li>Keep the files organized in the same folder for easy management.</li>
-        <li>If you generate a new SetBook, upload it to the same folder and refresh this page.</li>
-        <li>The HELP button always shows these instructions in case you forget.</li>
+        <li>Click any file above to download the ebook.</li>
+        <li>File naming convention: <strong>Project_SDGAudience_Category_Title.pdf</strong></li>
+        <li>Keep all files organized in the same folder.</li>
+        <li>If you generate new SetBooks, upload them here and refresh the page.</li>
+        <li>The HELP button always shows these instructions.</li>
     </ul>
   </div>
 </div>
 
 <script>
-    // Get modal elements
     const modal = document.getElementById("helpModal");
     const btn = document.getElementById("helpBtn");
     const span = document.getElementsByClassName("close")[0];
 
-    // Open modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // Close modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+    btn.onclick = function() { modal.style.display = "block"; }
+    span.onclick = function() { modal.style.display = "none"; }
+    window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 </script>
 
 </body>
